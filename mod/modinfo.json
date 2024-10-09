@@ -1,0 +1,10 @@
+{
+	"id": "franklygd.extendedcollectiblestracker",
+	"name": "Extended Collectibles Tracker",
+	"version": "1.0.3",
+	"authors": "FranklyGD",
+	"description": "Where the remaining stuff at?",
+	"requirements": ["rwremix"],
+	"requirements_names": ["Rain World Remix"],
+	"tags" : ["Accessibility"]
+}
