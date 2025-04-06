@@ -1,7 +1,7 @@
 {
 	"id": "franklygd.extendedcollectiblestracker",
 	"name": "Extended Collectibles Tracker",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"authors": "FranklyGD",
 	"description": "Where the remaining stuff at?",
 	"requirements": ["rwremix"],

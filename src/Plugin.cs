@@ -12,7 +12,7 @@ using BepInEx;
 namespace ExtendedCollectiblesTracker {
 	[BepInPlugin(GUID, MOD_NAME, VERSION)]
 	public class Plugin : BaseUnityPlugin {
-		public const string VERSION = "1.0.3";
+		public const string VERSION = "1.0.4";
 		public const string MOD_NAME = "Extended Collectibles Tracker";
 		public const string MOD_ID = "extendedcollectiblestracker";
 		public const string AUTHOR = "franklygd";

@@ -1,7 +1,5 @@
 
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 using HUD;
@@ -33,6 +31,11 @@ namespace ExtendedCollectiblesTracker {
 		}
 
 		public static void ctor(Map.MapData self, World initWorld, RainWorld rainWorld) {
+			if (initWorld == null) {
+				return; // no data between map loads, no world exists in The Watcher DLC
+			}
+			
+			RainWorldGame game = rainWorld.processManager.currentMainLoop as RainWorldGame;
 			Extension extendedSelf = self.GetExtension();
 			extendedSelf.region = initWorld.region.regionNumber;
 			
@@ -51,7 +54,7 @@ namespace ExtendedCollectiblesTracker {
 			foreach (var roomIndex in self.roomIndices) {
 				AbstractRoom abstractRoom = initWorld.GetAbstractRoom(roomIndex);
 
-				RoomSettings roomSettings = new RoomSettings(abstractRoom.name, initWorld.region, false, false, rainWorld.progression.PlayingAsSlugcat);
+				RoomSettings roomSettings = new RoomSettings(abstractRoom.name, initWorld.region, false, false, game?.TimelinePoint, game);
 
 				// per object
 				for (int i = 0; i < roomSettings.placedObjects.Count; i++) {
@@ -71,7 +74,7 @@ namespace ExtendedCollectiblesTracker {
 							pos = placedObject.pos,
 							color = Mod.GetPearlIconColor(pearlType),
 							innerColor = DataPearl.UniquePearlHighLightColor(pearlType).GetValueOrDefault(Color.white),
-							collected = (pearlRead || (saveState != null && saveState.ItemConsumed(initWorld, false, roomIndex, i))),
+							collected = pearlRead || (saveState != null && saveState.ItemConsumed(initWorld, false, roomIndex, i)),
 							isPearl = true
 						});
 					} else if (placedObject.type == PlacedObject.Type.BlueToken || placedObject.type == PlacedObject.Type.GoldToken) {
@@ -98,7 +101,7 @@ namespace ExtendedCollectiblesTracker {
 							color = CollectToken.RedColor.rgb,
 							collected = miscProgressionData.GetTokenCollected(new MultiplayerUnlocks.SafariUnlockID(tokenData.tokenString, false))
 						});
-					} else if (placedObject.type == MoreSlugcatsEnums.PlacedObjectType.GreenToken) {
+					} else if (placedObject.type == PlacedObject.Type.GreenToken) {
 						CollectToken.CollectTokenData tokenData = (CollectToken.CollectTokenData)placedObject.data;
 						if (!tokenData.availableToPlayers.Contains(rainWorld.progression.PlayingAsSlugcat))
 							continue;
@@ -149,11 +152,6 @@ namespace ExtendedCollectiblesTracker {
 
 		public static void LocatePearls(this Map.MapData self, RainWorld rainWorld) {
 			Extension extendedSelf = self.GetExtension();
-			
-			PlayerProgression.MiscProgressionData miscProgressionData = rainWorld.progression.miscProgressionData;
-			
-			RainWorldGame game = rainWorld.processManager.currentMainLoop as RainWorldGame;
-			StoryGameSession session = game?.session as StoryGameSession;
 
 			if (!rainWorld.progression.IsThereASavedGame(rainWorld.progression.PlayingAsSlugcat) ||
 				rainWorld.progression.currentSaveState == null
