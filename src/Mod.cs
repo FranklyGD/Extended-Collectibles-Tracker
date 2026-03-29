@@ -39,7 +39,7 @@ namespace ExtendedCollectiblesTracker {
 		}
 
         static void Map_ctor_HK(On.HUD.Map.orig_ctor orig, HUD.Map self, HUD.HUD hud, HUD.Map.MapData mapData) {
-			MapExtensions.Pre_ctor(self, hud, mapData);
+			//MapExtensions.Pre_ctor(self, hud, mapData);
 			orig(self, hud, mapData);
 			MapExtensions.Post_ctor(self, hud, mapData);
 		}

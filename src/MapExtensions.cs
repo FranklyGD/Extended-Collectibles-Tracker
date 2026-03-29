@@ -18,11 +18,11 @@ namespace ExtendedCollectiblesTracker {
 			return extensions.GetOrCreateValue(self);
 		}
 
-		public static void Pre_ctor(Map self, HUD.HUD hud, Map.MapData mapData) {
-			mapData.LocatePearls(hud.rainWorld);
-		}
+		// public static void Pre_ctor(Map self, HUD.HUD hud, Map.MapData mapData) {
+		// }
 
 		public static void Post_ctor(Map self, HUD.HUD hud, Map.MapData mapData) {
+			mapData.LocatePearls(hud.rainWorld);
 			MapDataExtensions.Extension extendedMapData = mapData.GetExtension();
 			
 			foreach (var collectibleData in extendedMapData.collectibleData) {
